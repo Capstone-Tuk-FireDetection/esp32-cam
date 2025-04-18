@@ -19,7 +19,7 @@
 #include <Arduino.h>    // isnan(), String 등 Arduino 함수들을 사용하기 위해
 #include "DHT.h"        // DHT 클래스 선언
 extern DHT dht;         // CameraWebServer.ino 에 정의된 전역 DHT 인스턴스를 참조
-
+#define FLAME_PIN 14    // flame 핀 정의
 
 #if defined(ARDUINO_ARCH_ESP32) && defined(CONFIG_ARDUHAL_ESP_LOG)
 #include "esp32-hal-log.h"      // ESP32 Arduino 로그 함수 제공 (정보 출력)
@@ -689,6 +689,15 @@ static esp_err_t dht_handler(httpd_req_t *req) {
   return httpd_resp_send(req, buf, len);
 }
 
+// 불꽃 센서 상태를 JSON으로 반환 
+static esp_err_t flame_handler(httpd_req_t *req) { 
+  int flame = digitalRead(FLAME_PIN);  // 0: 불꽃 감지, 1: 정상 
+  char buf[32]; // JSON 포맷으로 
+  int len = snprintf(buf, sizeof(buf), "{\"flame\":%d}", flame); 
+  httpd_resp_set_type(req, "application/json"); 
+  httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", ""); 
+  return httpd_resp_send(req, buf, len); 
+}
 
 // 카메라 서버 및 스트림 서버를 시작하는 함수
 void startCameraServer() {
@@ -848,6 +857,13 @@ void startCameraServer() {
     .user_ctx = NULL
   };
 
+  httpd_uri_t flame_uri = {
+  .uri      = "/flame",
+  .method   = HTTP_GET,
+  .handler  = flame_handler,
+  .user_ctx = NULL
+  };
+
   // 프레임 간 시간 평균을 위한 필터 초기화 (20개 샘플)
   ra_filter_init(&ra_filter, 20);
 
@@ -865,13 +881,7 @@ void startCameraServer() {
     httpd_register_uri_handler(camera_httpd, &pll_uri);
     httpd_register_uri_handler(camera_httpd, &win_uri);
     httpd_register_uri_handler(camera_httpd, &dht_uri);
-  }
-
-  // 포트 번호를 증가시켜 스트림 서버를 다른 포트에서 시작
-  config.server_port += 1;
-  config.ctrl_port += 1;
-  log_i("Starting stream server on port: '%d'", config.server_port);
-  if (httpd_start(&stream_httpd, &config) == ESP_OK) {
-    httpd_register_uri_handler(stream_httpd, &stream_uri);
+    httpd_register_uri_handler(camera_httpd, &flame_uri);
+    httpd_register_uri_handler(camera_httpd, &stream_uri);
   }
 }

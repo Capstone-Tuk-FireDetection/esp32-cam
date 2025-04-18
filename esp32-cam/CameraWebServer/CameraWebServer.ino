@@ -13,6 +13,8 @@
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
+#define FLAME_PIN 14 // Flame sensor 신호선 연결 핀
+
 // ===========================
 // WiFi 접속 정보 입력 (자신의 네트워크 정보로 변경)
 // ===========================
@@ -55,6 +57,9 @@ void setup() {
   // 전원 제어 핀 설정 (카메라의 전원 및 리셋 제어)
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
+
+  // 불꽃 센서 입력 핀 설정
+  pinMode(FLAME_PIN, INPUT);
   
   // XCLK 주파수 설정 (20MHz)
   config.xclk_freq_hz = 20000000;
