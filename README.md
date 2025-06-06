@@ -44,6 +44,7 @@ python capture_client.py 192.168.0.123 --fps 10 --output images
 This saves sequential frames under the `images` directory until you stop the
 script with `Ctrl+C`.
 
+
 ## Classifying Images with a PyTorch Model
 
 Use `flame_classifier.py` to load your own PyTorch model and classify images as either `flame` or `no_flame`.
@@ -77,3 +78,4 @@ python firebase_auth_server.py
 ```
 
 Clients can send a POST request to `/login` with a JSON body containing an `idToken` obtained from Firebase Authentication. The server verifies the token and returns the user's UID on success.
+
