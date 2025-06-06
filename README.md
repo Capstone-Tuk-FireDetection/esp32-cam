@@ -45,8 +45,7 @@ This saves sequential frames under the `images` directory until you stop the
 script with `Ctrl+C`.
 
 
-## Classifying Images with a PyTorch Model
-
+Use `flame_classifier.py` to load your own PyTorch model and classify images as either `flame` or `no_flame`. The model file **must** contain a serialized `torch.nn.Module` saved with `torch.save(model, path)` rather than just the model's `state_dict`. Loading a plain state dictionary will raise an error. Save the file locally, for example as `model.pth`.
 Use `flame_classifier.py` to load your own PyTorch model and classify images as either `flame` or `no_flame`.
 The model file should be saved locally, for example as `model.pth`.
 
