@@ -1,0 +1,16 @@
+# Ignore Arduino/ESP32 build artifacts
+*.bin
+*.elf
+*.hex
+*.map
+
+# Build directories
+build/
+**/build/
+.pio/
+.vscode/
+
+# Misc
+*.log
+*.tmp
+.DS_Store
