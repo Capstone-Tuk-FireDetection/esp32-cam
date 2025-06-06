@@ -11,6 +11,12 @@ def load_flame_classifier(model_path: str, device: str = "cpu") -> Callable[[str
     "flame" or "no_flame" based on the model's prediction.
     """
     model = torch.load(model_path, map_location=device)
+    if isinstance(model, dict) or not hasattr(model, "eval"):
+        raise ValueError(
+            "Model file must contain a serialized torch.nn.Module. "
+            "Did you save only the state_dict?"
+        )
+
     model.eval()
     model.to(device)
 
