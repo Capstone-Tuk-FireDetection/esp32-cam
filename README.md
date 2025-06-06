@@ -28,3 +28,36 @@ Configure your Wi-Fi credentials in [`wifi_config.h`](esp32-cam/CameraWebServer/
 ```
 
 Ensure this file is stored in the same directory as `CameraWebServer.ino` before compiling.
+
+## Capturing Images from the ESP32-CAM
+
+A simple Python script `capture_client.py` is provided to grab JPEG images from
+the camera's `/capture` endpoint at a fixed frame rate. You need the
+`requests` package installed (`pip install requests`).
+
+Example usage to capture at 10&nbsp;fps:
+
+```bash
+python capture_client.py 192.168.0.123 --fps 10 --output images
+```
+
+This saves sequential frames under the `images` directory until you stop the
+script with `Ctrl+C`.
+
+## Classifying Images with a PyTorch Model
+
+Use `flame_classifier.py` to load your own PyTorch model and classify images as either `flame` or `no_flame`.
+The model file should be saved locally, for example as `model.pth`.
+
+```python
+from flame_classifier import load_flame_classifier
+
+# Load the model
+classify = load_flame_classifier('model.pth')
+
+# Predict an image
+label = classify('path/to/image.jpg')
+print(label)  # prints 'flame' or 'no_flame'
+```
+
+This requires `torch`, `torchvision`, and `Pillow` to be installed.
