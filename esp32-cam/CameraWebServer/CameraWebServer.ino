@@ -15,11 +15,14 @@ DHT dht(DHTPIN, DHTTYPE);
 
 #define FLAME_PIN 14 // Flame sensor 신호선 연결 핀
 
+// WiFi credentials are loaded from wifi_config.h
+#include "wifi_config.h"
+
 // ===========================
-// WiFi 접속 정보 입력 (자신의 네트워크 정보로 변경)
+// WiFi 접속 정보는 wifi_config.h에서 정의된 상수를 사용
 // ===========================
-const char *ssid = "GalaxyS224896";      // WiFi 네트워크 이름(SSID)
-const char *password = "71503569";  // WiFi 비밀번호
+const char *ssid = WIFI_SSID;      // WiFi 네트워크 이름(SSID)
+const char *password = WIFI_PASSWORD;  // WiFi 비밀번호
 
 // 카메라 서버 시작 함수 선언 (구현은 별도)
 void startCameraServer();
