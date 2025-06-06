@@ -16,6 +16,7 @@ def load_flame_classifier(model_path: str, device: str = "cpu") -> Callable[[str
             "Model file must contain a serialized torch.nn.Module. "
             "Did you save only the state_dict?"
         )
+
     model.eval()
     model.to(device)
 

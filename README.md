@@ -44,9 +44,17 @@ python capture_client.py 192.168.0.123 --fps 10 --output images
 This saves sequential frames under the `images` directory until you stop the
 script with `Ctrl+C`.
 
+
 ## Classifying Images with a PyTorch Model
 
 Use `flame_classifier.py` to load your own PyTorch model and classify images as either `flame` or `no_flame`. The model file **must** contain a serialized `torch.nn.Module` saved with `torch.save(model, path)` rather than just the model's `state_dict`. Loading a plain state dictionary will raise an error. Save the file locally, for example as `model.pth`.
+=======
+
+## Classifying Images with a PyTorch Model
+
+Use `flame_classifier.py` to load your own PyTorch model and classify images as either `flame` or `no_flame`.
+The model file should be saved locally, for example as `model.pth`.
+
 
 ```python
 from flame_classifier import load_flame_classifier
@@ -61,6 +69,7 @@ print(label)  # prints 'flame' or 'no_flame'
 
 This requires `torch`, `torchvision`, and `Pillow` to be installed.
 
+
 ## Real-time Capture and Classification
 
 `capture_and_classify.py` combines the above capture logic with the flame
@@ -73,6 +82,7 @@ python capture_and_classify.py 192.168.0.123 --fps 10 --model model.pth --output
 
 The script saves frames to the given directory and prints the predicted label
 (`flame` or `no_flame`) for each image until you stop it with `Ctrl+C`.
+
 
 ## Flask Authentication with Firebase
 
@@ -89,3 +99,4 @@ python firebase_auth_server.py
 ```
 
 Clients can send a POST request to `/login` with a JSON body containing an `idToken` obtained from Firebase Authentication. The server verifies the token and returns the user's UID on success.
+
