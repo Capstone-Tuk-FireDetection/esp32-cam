@@ -690,13 +690,13 @@ static esp_err_t dht_handler(httpd_req_t *req) {
 }
 
 // 불꽃 센서 상태를 JSON으로 반환 
-static esp_err_t flame_handler(httpd_req_t *req) { 
-  int flame = digitalRead(FLAME_PIN);  // 0: 불꽃 감지, 1: 정상 
-  char buf[32]; // JSON 포맷으로 
-  int len = snprintf(buf, sizeof(buf), "{\"flame\":%d}", flame); 
-  httpd_resp_set_type(req, "application/json"); 
-  httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", ""); 
-  return httpd_resp_send(req, buf, len); 
+static esp_err_t flame_handler(httpd_req_t *req) {
+  int flame = digitalRead(FLAME_PIN);  // 0: 불꽃 감지, 1: 정상
+  char buf[32]; // JSON 포맷으로
+  int len = snprintf(buf, sizeof(buf), "{\"flame\":%d}", flame);
+  httpd_resp_set_type(req, "application/json");
+  httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+  return httpd_resp_send(req, buf, len);
 }
 
 // 카메라 서버 및 스트림 서버를 시작하는 함수
