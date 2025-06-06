@@ -28,3 +28,18 @@ Configure your Wi-Fi credentials in [`wifi_config.h`](esp32-cam/CameraWebServer/
 ```
 
 Ensure this file is stored in the same directory as `CameraWebServer.ino` before compiling.
+
+## Capturing Images from the ESP32-CAM
+
+A simple Python script `capture_client.py` is provided to grab JPEG images from
+the camera's `/capture` endpoint at a fixed frame rate. You need the
+`requests` package installed (`pip install requests`).
+
+Example usage to capture at 10&nbsp;fps:
+
+```bash
+python capture_client.py 192.168.0.123 --fps 10 --output images
+```
+
+This saves sequential frames under the `images` directory until you stop the
+script with `Ctrl+C`.
