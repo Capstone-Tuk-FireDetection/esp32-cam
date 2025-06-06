@@ -61,3 +61,19 @@ print(label)  # prints 'flame' or 'no_flame'
 ```
 
 This requires `torch`, `torchvision`, and `Pillow` to be installed.
+
+## Flask Authentication with Firebase
+
+`firebase_auth_server.py` demonstrates how to verify Firebase ID tokens in a Flask server. Install dependencies first:
+
+```bash
+pip install firebase-admin flask
+```
+
+Update the script with the path to your Firebase service account key JSON file, then start the server:
+
+```bash
+python firebase_auth_server.py
+```
+
+Clients can send a POST request to `/login` with a JSON body containing an `idToken` obtained from Firebase Authentication. The server verifies the token and returns the user's UID on success.
