@@ -43,3 +43,39 @@ python capture_client.py 192.168.0.123 --fps 10 --output images
 
 This saves sequential frames under the `images` directory until you stop the
 script with `Ctrl+C`.
+
+
+## Classifying Images with a PyTorch Model
+
+Use `flame_classifier.py` to load your own PyTorch model and classify images as either `flame` or `no_flame`.
+The model file should be saved locally, for example as `model.pth`.
+
+```python
+from flame_classifier import load_flame_classifier
+
+# Load the model
+classify = load_flame_classifier('model.pth')
+
+# Predict an image
+label = classify('path/to/image.jpg')
+print(label)  # prints 'flame' or 'no_flame'
+```
+
+This requires `torch`, `torchvision`, and `Pillow` to be installed.
+
+## Flask Authentication with Firebase
+
+`firebase_auth_server.py` demonstrates how to verify Firebase ID tokens in a Flask server. Install dependencies first:
+
+```bash
+pip install firebase-admin flask
+```
+
+Update the script with the path to your Firebase service account key JSON file, then start the server:
+
+```bash
+python firebase_auth_server.py
+```
+
+Clients can send a POST request to `/login` with a JSON body containing an `idToken` obtained from Firebase Authentication. The server verifies the token and returns the user's UID on success.
+
