@@ -14,3 +14,4 @@ build/
 *.log
 *.tmp
 .DS_Store
+__pycache__/

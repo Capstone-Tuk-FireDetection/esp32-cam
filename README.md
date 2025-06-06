@@ -63,6 +63,21 @@ print(label)  # prints 'flame' or 'no_flame'
 
 This requires `torch`, `torchvision`, and `Pillow` to be installed.
 
+
+## Real-time Capture and Classification
+
+`capture_and_classify.py` combines the above capture logic with the flame
+classifier so that each frame is immediately labeled. Install the required
+packages (`requests`, `torch`, `torchvision`, `Pillow`) and run:
+
+```bash
+python capture_and_classify.py 192.168.0.123 --fps 10 --model model.pth --output frames
+```
+
+The script saves frames to the given directory and prints the predicted label
+(`flame` or `no_flame`) for each image until you stop it with `Ctrl+C`.
+
+
 ## Flask Authentication with Firebase
 
 `firebase_auth_server.py` demonstrates how to verify Firebase ID tokens in a Flask server. Install dependencies first:
